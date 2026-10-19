@@ -1,0 +1,24 @@
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        # at most m zeroes
+        # at most n ones
+        def memoization(i,zeroes,ones):
+            if i == len(strs) or zeroes < 0 or ones < 0:
+                return 0
+            
+            num0, num1 = self.calculate1s0s(strs[i])
+            return max(1 + memoization(i+1, zeroes-num0, ones-num1), memoization(i+1, m, n))
+        return memoization(0, m, n)
+
+
+
+    
+    def calculate1s0s(self, s: str) -> List:
+        numZeros = 0
+        numOnes = 0
+        for c in s:
+            if c == '0':
+                numZeros +=1
+            if c == '1':
+                numOnes += 1
+        return [numZeros, numOnes]
